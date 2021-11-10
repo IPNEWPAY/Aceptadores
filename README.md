@@ -1,7 +1,7 @@
 # Aceptadores
 
 ## Flujo de Pago QR
-![Esta es una imagen](/Aceptadores/Flujo QR.png)
+![Esta es una imagen](https://github.com/IPNEWPAY/Aceptadores/blob/main/Flujo%20QR.png?raw=true)
 
 ## 1) Archivo: *Documentación para Aceptadores*:
 El presente documento tiene como finalidad explicar a alto nivel cómo funciona la operatoria de pagos QR con Transferencias Inmediatas. Se explicarán las interacciones con los distintos actores del sistema y la descripción de las distintas APIs a invocar en cada punto del proceso.
