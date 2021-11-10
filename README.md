@@ -11,3 +11,6 @@ En este anexo se encuentra los swaggers de las APIs en formato ".yaml"
 
 # 4) Archivo: DI - Reporte de Liquidación para Aceptadores:
 El presente documento tiene como objetivo describir el diseño del reporte que se generará desde el rol Administrador para los Aceptadores que operen con esta solución.
+
+# 5) Archivo: Documentación APIs Proceso de Liquidación - Aceptador
+El presente documento tiene como objetivo describir el set de APIs disponible para los Aceptadores que les permitirá consultar información relativa a la liquidación de tasa de intercambio.
