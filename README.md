@@ -14,8 +14,12 @@ El presente documento tiene como finalidad explicar a alto nivel cómo funciona 
 ### 2) Archivo: *Autenticación entre Aceptadores y Administradores*:
 El presente documento tiene como finalidad explicar cómo debe implementarse la autenticación en los distintos servicios entre el Aceptador y el Administrador.
 
-### 3) Archivo: *Anexo Aceptador.rar*:
-En este anexo se encuentra los swaggers de las APIs en formato ".yaml"
+### 3) Carpeta: *[Swaggers](https://github.com/IPNEWPAY/Billeteras/tree/main/swaggers)*
+En esta carpera se encuentra los swaggers de las APIs en formato ".yaml". 
+
+Tambien puedes acceder en linea a las APIs:
+* [Administrador a Aceptadores](https://ipnewpay.github.io/Aceptadores/index.html)
+* [Aceptadores a Administrador](https://ipnewpay.github.io/Aceptadores/AceptadoresparaADM.html)
 
 ### 4) Archivo: *DI - Reporte de Liquidación para Aceptadores*:
 El presente documento tiene como objetivo describir el diseño del reporte que se generará desde el rol Administrador para los Aceptadores que operen con esta solución.
