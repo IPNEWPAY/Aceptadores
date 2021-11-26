@@ -14,7 +14,7 @@ El presente documento tiene como finalidad explicar a alto nivel cómo funciona 
 ### 2) Archivo: *Autenticación entre Aceptadores y Administradores*:
 El presente documento tiene como finalidad explicar cómo debe implementarse la autenticación en los distintos servicios entre el Aceptador y el Administrador.
 
-### 3) Carpeta: *[Swaggers](https://github.com/IPNEWPAY/Billeteras/tree/main/swaggers)*
+### 3) Carpeta: *[Swaggers](https://github.com/IPNEWPAY/Aceptadores/tree/main/swaggers)*
 En esta carpera se encuentra los swaggers de las APIs en formato ".yaml". 
 
 Tambien puedes acceder en linea a las APIs:
