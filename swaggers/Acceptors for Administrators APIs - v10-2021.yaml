@@ -1,0 +1,600 @@
+openapi: 3.0.1
+info:
+  title: Acquirer and Administrator APIs - Authenticated events
+  version: 1.0.0
+security:
+  - acquirerBearerAuth: []
+servers:
+- url: /
+paths:
+  /example_acquirer/v1/webhook-notification:
+    post:
+      tags:
+        - Acquirers APIs
+      summary: Notificación webhook recibida desde el administrador hacia el aceptador para notificar cambios de estado
+      security:
+      - acquirerBearerAuth: []
+      description: ACLARACION! Esta URL es un ejemplo de como notificarle al Aceptador una notificación webhook. Referirse a sección CALLBACK de la API del administrador
+      requestBody:
+        description: Estructura de notification de transaccion
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/instant_payment_notifications'
+            examples:
+              transaction_completed_approved:
+                value:
+                  date_created: '2021-04-19T21:28:38.400Z'
+                  id: 123456789
+                  action: TRANSFER.COMPLETED
+                  live_mode: true
+                  api_version: 1
+                  type: TRANSFER
+                  data:
+                    qr_id: 7f3ae4c2-e00f-4b85-8a08-94764b9f63ff
+                    amount:
+                      value: 100.25
+                      currency: ARS
+                    merchant:
+                      soft_descriptor: string
+                      cuit: 3333333333
+                    payer:
+                      name: Juan Perez
+                      document:
+                        type: DNI
+                        number: '3312345659'
+                      wallet:
+                        name: MODO
+                        cuit: 3333333333
+                    transaction:
+                      authorization_code: '123'
+                      code: APPROVED
+                      description: 'Aprobada'
+                      datetime: '2021-04-19T21:28:38.400Z'
+                      type: CCT
+                      merchant_discounts:
+                        total_discounts:
+                          value: 10.68
+                          currency: ARS
+                        withholdings_discounts:
+                          value: 1
+                          currency: ARS
+                        merchant_discount_rate:
+                            percentage_over_gross_amount: 0.8
+                            iva_percentage: 21
+                            amount:
+                              value: 8
+                              currency: ARS
+                            iva_amount: 
+                              value: 1.68
+                              currency: ARS
+                            total:
+                              value: 9.68
+                              currency: ARS
+                      net_amount:
+                        value: 989.32
+                        currency: ARS
+                      gross_amount:
+                        value: 1000.00
+                        currency: ARS
+              transaction_completed_rejected:
+                value:  
+                  date_created: '2021-04-19T21:28:38.400Z'
+                  id: 123456789
+                  action: TRANSFER.COMPLETED
+                  live_mode: true
+                  api_version: 1
+                  type: TRANSFER
+                  data:
+                    qr_id: 7f3ae4c2-e00f-4b85-8a08-94764b9f63ff
+                    amount:
+                      value: 100.25
+                      currency: ARS
+                    merchant:
+                      soft_descriptor: string
+                      cuit: 3333333333
+                    payer:
+                      name: Juan Perez
+                      document:
+                        type: DNI
+                        number: '3312345659'
+                      wallet:
+                        name: MODO
+                        cuit: 3333333333
+                    transaction:
+                      authorization_code: '123'
+                      code: REJECTED
+                      description: Rechazada
+                      on_rejection:
+                        code: INSSUFICIENT_FUNDS
+                        description: Fondos insuficientes
+                      datetime: '2021-04-19T21:28:38.400Z'
+                      type: CCT
+        required: true
+      responses:
+        200:
+          description: Consulta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notifications_response'
+        400:
+          description: Bad request. Envío de parámetros incorrectos en el request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        401:
+          description: Apikey no valida o token vencido o no valido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        403:
+          description: Operacion no autorizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        404:
+          description: Operacion no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        408:
+          description: Tiempo de espera agotado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        500:
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+      x-codegen-request-body-name: notification
+  /example_acquirer/v1/instant_payments/{qr_id}:
+    get:
+      tags:
+        - Acquirers APIs
+      security:
+      - acquirerBearerAuth: []
+      summary: API para que el administrador obtenga detalles de un comercio
+      description: Obtiene detalles y valida la información para cursar un Instant
+        Payment.
+      parameters:
+      - name: qr_id
+        in: path
+        description: Identificador univoco del QR
+        required: true
+        schema:
+          type: string
+        example: "7f3ae4c2-e00f-4b85-8a08-94764b9f63ff"
+      - name: amount
+        in: query
+        description: Monto de la transacción
+        schema:
+          type: number
+          format: currency
+        example: 143.55
+      - name: currency
+        in: query
+        description: Moneda de la transacción
+        schema:
+          type: string
+          enum:
+            - ARS
+            - USD
+        example: "ARS"
+      responses:
+        200:
+          description: Consulta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instant_payment_merchant_details'
+        400:
+          description: Bad request. Envío de parámetros incorrectos en el request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        401:
+          description: Apikey no valida o token vencido o no valido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        403:
+          description: Operacion no autorizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        404:
+          description: Operacion no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        408:
+          description: Tiempo de espera agotado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        500:
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+
+components:
+  schemas:
+    instant_payment_merchant_details:
+      required:
+      - qr_id
+      - merchant
+      - amount
+      - transaction_type
+      type: object
+      properties:
+        qr_id:
+          type: string
+          description: QR Unique identifier for a payment
+          example: "7f3ae4c2-e00f-4b85-8a08-94764b9f63ff"
+        amount:
+          $ref: '#/components/schemas/amounts'
+        merchant:
+          $ref: '#/components/schemas/merchants'
+        withholdings:
+          $ref: '#/components/schemas/withholdings'
+        transaction_type:
+          type: string
+          description: Tipo de transaccion CCT, PCT, ECT
+          example: "CCT"
+          enum:
+            - CCT
+            - PCT
+            - ECT
+            - DCT
+    instant_payment_notification_details:
+      description: Representación de un Instant Payment hacia el aceptador
+      required:
+      - qr_id
+      - amount
+      - merchant
+      - payer
+      type: object
+      properties:
+        qr_id:
+          type: string
+          description: Identificador unívoco del QR
+          example: "7f3ae4c2-e00f-4b85-8a08-94764b9f63ff"
+        amount:
+          $ref: '#/components/schemas/amounts'
+        merchant:
+          $ref: '#/components/schemas/public_merchants'
+        payer:
+          $ref: '#/components/schemas/public_payers'
+        transaction:
+          allOf:
+            - $ref: '#/components/schemas/transaction_details'
+          properties:
+            merchant_discounts:
+              $ref: '#/components/schemas/merchant_discounts'
+            gross_amount:
+              $ref: '#/components/schemas/amounts'                    
+            net_amount:
+              $ref: '#/components/schemas/amounts'                        
+    instant_payment_notifications:
+      description: Objeto de notificacion webhook
+      required:
+      - date_created
+      - action
+      - merchant
+      - payer
+      - id
+      - type
+      - live_mode
+      type: object
+      properties:
+        date_created:
+          type: string
+          description: Fecha y Hora de la notificación
+          format: date-time
+        id:
+          type: string
+          description: Identificador del evento
+          example: "123456789"
+        action:
+          type: string
+          description: Estado de la transacción
+          enum:
+          - TRANSFER.COMPLETED
+        type:
+          type: string
+          description: Tipo de transacción asociada al evento
+          enum:
+          - TRANSFER
+        live_mode:
+          type: boolean
+          description: Ambiente
+        api_version:
+          type: string
+          description: Version de la API
+        data:
+          $ref: '#/components/schemas/instant_payment_notification_details'
+    merchants:
+      required:
+      - category
+      - cuit
+      - free_tier
+      - iva_exempt
+      - field_of_activity
+      - soft_descriptor
+      - account
+      - amount
+      type: object
+      properties:
+        soft_descriptor:
+          type: string
+          description: Nombre de fantasia del comercio.
+        cuit:
+          $ref: '#/components/schemas/cuit'
+        category:
+          type: string
+          description: Categoria de Comercio.
+          enum:
+          - SMALL
+          - MEDIUM
+          - LARGE
+        field_of_activity:
+          type: string
+          description: Codigo de actividad enconómica AFIP.
+        free_tier:
+          type: boolean
+          description: Informa si el comercio se encuentra en tramo gratuito o
+            no.
+        iva_exempt:
+          type: boolean
+          description: Informa si el comercio se encuentra exento de iva o no.
+        account:
+          $ref: '#/components/schemas/accounts'
+      description: Datos del comercio              
+    public_merchants:
+      required:
+      - cuit
+      - soft_descriptor
+      type: object
+      properties:
+        soft_descriptor:
+          type: string
+          description: Nombre de fantasia del comercio.
+        cuit:
+          $ref: '#/components/schemas/cuit'
+      description: Datos del comercio              
+    amounts:
+      required:
+      - currency
+      - value
+      type: object
+      properties:
+        value:
+          type: number
+          description: Amount.
+          format: currency
+          example: 100.25
+        currency:
+          type: string
+          description: Currency of the Payment.
+          enum:
+          - ARS
+          - USD      
+    merchant_discounts:
+      required:
+      - total_discounts
+      type: object
+      properties:
+        total_discounts:
+          $ref: '#/components/schemas/amounts'
+        withholdings_discounts:
+          $ref: '#/components/schemas/amounts'
+        merchant_discount_rate:
+          type: object
+          description: Discount rate applied (without taxes). 
+          properties:
+            percentage_over_gross_amount:
+                type: number
+                description: Porcentaje de arancel aplicado. 
+                example: 0.8
+            iva_percentage: 
+                type: number
+                description: Porcentaje de IVA aplicado sobre el arancel. 
+                example: 21
+            amount:
+              $ref: '#/components/schemas/amounts'
+            iva_amount:
+              $ref: '#/components/schemas/amounts'
+            total:
+              $ref: '#/components/schemas/amounts'
+    accounts:
+      required:
+      - cbu
+      type: object
+      properties:
+        cbu:
+          type: string
+          description: CBU number
+        cvu:
+          type: string
+          description: CVU number
+    documents:
+      type: object         
+      required:
+          - type
+          - number
+      properties:
+        type:
+          type: string
+          description: Document type
+          enum:
+            - DNI
+            - LC
+            - LE
+            - CDI
+        number:
+          type: string
+          description: Document number
+          example: "3312345659"
+    withholdings:
+      required:
+      - total_amount
+      type: object
+      properties:
+        total_amount:
+          type: number
+          description: Monto total a retener
+          format: currency
+        details:
+          minItems: 1
+          type: array
+          description: Lista detallada de retenciones e impuestos
+          items:
+            $ref: '#/components/schemas/withholding_details'
+      description: Retenciones
+    public_payers:
+      type: object
+      required:
+        - name
+        - document
+        - wallet
+      properties:
+        name:
+          type: string
+          description: Payer full name
+          example: Juan Perez
+        document:
+          $ref: '#/components/schemas/documents'
+        wallet:
+          required:
+          - cuit
+          - name
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the Wallet
+              example: MODO
+            cuit:
+              $ref: '#/components/schemas/cuit'              
+    transaction_details:
+      required:
+      - authorization_code
+      - code
+      - datetime
+      - description
+      - type
+      type: object
+      properties:
+        authorization_code:
+          type: string
+          description: Authorization code sent to The financials Institutions involved in the transaction.
+        code:
+          $ref: '#/components/schemas/response_status'
+        description:
+          type: string
+          description: Description of the status code.
+        on_rejection:
+          required:
+          - code
+          - description
+          type: object
+          properties:
+            code:
+              type: string
+              description: Code of rejection.
+            description:
+              type: string
+              description: Description of the rejection.
+          description: Detailed information about the rejection (only if the transaction is REJECTED)
+        datetime:
+          type: string
+          description: Date and time of the transaction.
+          format: date-time
+        type:
+          type: string
+          description: Transaction type (CCT, PCT, DCT, ECT).
+          enum:
+          - CCT
+          - PCT
+          - DCT
+          - ECT                      
+    notifications_response:
+      required:
+      - qr_id
+      type: object
+      properties:
+        qr_id:
+          type: string
+          description: QR Unique identifier for a payment      
+    withholding_details:
+      required:
+      - amount
+      - code
+      - percentage
+      type: object
+      properties:
+        code:
+          type: string
+          description: Unique identifier of the tax/withholding.
+        percentage:
+          type: number
+          description: percentage applicable.
+          format: double
+        amount:
+          type: number
+          description: amount.
+          format: currency
+      description: Data related to taxes or withholdings
+    cuit:
+      maxLength: 11
+      minLength: 11
+      type: string
+      description: CUIT de la entidad (sin guiones)
+      example: 22333333339
+    errors:
+      required:
+      - errors
+      type: object
+      properties:
+        errors:
+          minItems: 1
+          type: array
+          items:
+            required:
+            - description
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code
+              description:
+                type: string
+                description: Description of the error.
+      description: Array con errores      
+    response_status:
+      type: string
+      description: Codigo de estado de la transaccion
+      enum:
+      - APPROVED
+      - REJECTED
+  securitySchemes:
+    acquirerBearerAuth:
+      type: http
+      scheme: bearer
+      description: "GET 'https://example-url-acquirer/accesstoken?grant_type=client_credentials' --header 'Authorization: Basic CLIENTCREDENTIALSCIFRADASENBASE64'"
