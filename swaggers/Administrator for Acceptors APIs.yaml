@@ -125,35 +125,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/errors'
-  /administrator/acquirers/v1/webhooks:
-    post:
-      tags:
-        - Administrator APIs
-      summary: Registra un webhook de notificaciones hacia el aceptador.
-      security:
-      - administratorBearerAuth: []
-      description: Se utilizará la url registrada en este servicio para notificar al aceptador de cambios de estado sobre los Instant Payments.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              properties:
-                webhook_url:
-                  type: string
-                  example: 'https://www.example_acquirer.com/api/acquirer/v1/acquirer_webhook_url'
-                  description: Esta URL será utilizada para realizar un HTTP POST al notificar un evento.
-      responses:
-        '201':
-          description: Webhook registrado correctamente.
-          content:
-            application/json:
-              schema:
-                properties:
-                  webhook_url:
-                    type: string
-                    example: 'https://www.example_acquirer.com/api/acquirer/v1/acquirer_webhook_url'
-                    description: Esta URL será utilizada para realizar un HTTP POST al notificar un evento.
 
 components:
   schemas:
