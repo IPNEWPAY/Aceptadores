@@ -2,128 +2,13 @@
 # 18-06: Se agrega a este swagger la consulta de qr_id con array de transactions
 openapi: 3.0.1
 info:
-  title: Acquirer and Administrator APIs - Authenticated events
-  version: 1.0.0
+  title: Administrator APIs for acquirers
+  version: v12-2021
 security:
   - administratorBearerAuth: []
 servers:
 - url: /
 paths:
-  /administrator/acquirers/v1/instant_payments/{qr_id}:
-    get:
-      tags:
-        - Administrator APIs
-      summary: This API resturns status and detailed information given a QR_ID
-      security:
-      - administratorBearerAuth: []
-      description: This API resturns status and detailed information given a QR_ID
-      parameters:
-      - name: qr_id
-        in: path
-        description: QR Unique identifier for a payment
-        required: true
-        schema:
-          type: string
-        example: "7f3ae4c2-e00f-4b85-8a08-94764b9f63ff"
-      responses:
-        200:
-          description: The request has succeeded
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/instant_payment_qrid_details_v1'
-              examples:
-                approved:
-                  value:
-                    qr_id: 7f3ae4c2-e00f-4b85-8a08-94764b9f63ff
-                    amount:
-                      value: 100.25
-                      currency: ARS
-                    merchant:
-                      soft_descriptor: string
-                      cuit: 3333333333
-                    payer:
-                      name: Juan Perez
-                      document:
-                        type: DNI
-                        number: '3312345659'
-                      wallet:
-                        name: MODO
-                        cuit: 3333333333
-                    transaction:
-                      authorization_code: '123'
-                      code: APPROVED
-                      description: 'The payment is approved.'
-                      datetime: '2021-04-19T21:28:38.400Z'
-                      type: CCT
-                      net_amount:
-                        value: 80.25
-                        currency: ARS
-                      gross_amount:
-                        value: 100.25
-                        currency: ARS
-                rejected:
-                  value:
-                    qr_id: 7f3ae4c2-e00f-4b85-8a08-94764b9f63ff
-                    amount:
-                      value: 100.25
-                      currency: ARS
-                    merchant:
-                      soft_descriptor: string
-                      cuit: 3333333333
-                    payer:
-                      name: Juan Perez
-                      document:
-                        type: DNI
-                        number: '3312345659'
-                      wallet:
-                        name: MODO
-                        cuit: 3333333333
-                    transaction:
-                      authorization_code: '123'
-                      code: REJECTED
-                      description: "The payment is rejected."
-                      on_rejection:
-                        code: INSSUFICIENT_FUNDS
-                        description: Fondos insuficientes
-                      datetime: '2021-04-19T21:28:38.400Z'
-                      type: CCT                        
-        400:
-          description: Bad request. 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errors'
-        401:
-          description: Apikey no valida o token vencido o no valido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errors'
-        403:
-          description: Operacion no autorizada
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errors'
-        404:
-          description: Operacion no encontrada
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errors'
-        408:
-          description: Tiempo de espera agotado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errors'
-        500:
-          description: Error interno
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errors'    
   /administrator/acquirers/v2/instant_payments/{qr_id}:
     get:
       tags:
@@ -183,7 +68,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/errors'    
-
   /administrator/acquirers/v1/refunds:
     post:
       summary: API de pago devoluciones de pagos pasivos con QR
@@ -552,4 +436,4 @@ components:
     administratorBearerAuth:
       type: http
       scheme: bearer
-      description: "This API supports the client_credentials flow. You can obtain it by issuing a HTTP POST '/administrator/v1/oauth/token' --header 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'grant_type=client_credentials' --data-urlencode 'YOUR_CLIENT_ID' --data-urlencode 'client_secret=YOUR_CLIENT_SECRET' --data-urlencode 'scope=read'"       
+      description: "This API supports the client_credentials flow. You can obtain it by issuing a POST 'https://admin_url_oauth/oauth2/token?grant_type=client_credentials' --header 'Authorization: Basic 'token'"       
