@@ -20,6 +20,7 @@ En esta carpera se encuentra los swaggers de las APIs en formato ".yaml".
 Tambien puedes acceder en linea a las APIs:
 * [Administrador a Aceptadores](https://ipnewpay.github.io/Aceptadores/index.html)
 * [Aceptadores a Administrador](https://ipnewpay.github.io/Aceptadores/AceptadoresparaADM.html)
+* [APIs No Transaccionales](https://ipnewpay.github.io/Aceptadores/APIs No Transaccionales.html)
 
 ### 4) Archivo: *DI - Reporte de Liquidación para Aceptadores*:
 El presente documento tiene como objetivo describir el diseño del reporte que se generará desde el rol Administrador para los Aceptadores que operen con esta solución.
