@@ -1,0 +1,497 @@
+swagger: '2.0'
+info:
+  version: 1.0.4
+  title: project.name@
+host: ab5a38355ad1a4c09b1e930eb307825a-c503670b997b158f.elb.us-east-1.amazonaws.com
+basePath: /external-backoffice
+tags:
+  - name: accumulated-external-backoffice-controller
+    description: Accumulated External Backoffice Controller
+  - name: tariff-by-item-controller
+    description: Tariff By Item Controller
+  - name: token-controller
+    description: Token Controller
+paths:
+  /oauth2/token:
+    post:
+      tags:
+        - token-controller
+      summary: getToken
+      operationId: getTokenUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: Authorization
+          in: header
+          description: Authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TokenDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/external/backoffice/accumulated/acquirers:
+    get:
+      tags:
+        - accumulated-external-backoffice-controller
+      summary: Get accumulated from acquirers
+      operationId: getAccumulatedFromAcquirersUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: acquirer_cuit
+          in: query
+          description: acquirer_cuit
+          required: true
+          type: string
+        - name: date_from
+          in: query
+          description: date_from
+          required: true
+          type: string
+        - name: date_to
+          in: query
+          description: date_to
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success. Return a List<ResponseConsultaAcumuladoDTO>
+          schema:
+            $ref: '#/definitions/AccumulatedDTO'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '403':
+          description: Forbidden. You don't have permission
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/external/backoffice/accumulated/issuers:
+    get:
+      tags:
+        - accumulated-external-backoffice-controller
+      summary: Get accumulated from issuers
+      operationId: getAccumulatedFromIssuersUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: bankName
+          in: query
+          description: bankName
+          required: true
+          type: string
+        - name: date_from
+          in: query
+          description: date_from
+          required: true
+          type: string
+        - name: date_to
+          in: query
+          description: date_to
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success. Return a List<ResponseConsultaAcumuladoDTO>
+          schema:
+            $ref: '#/definitions/AccumulatedDTO'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '403':
+          description: Forbidden. You don't have permission
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/external/backoffice/report/presigned_url:
+    get:
+      tags:
+        - accumulated-external-backoffice-controller
+      summary: Get Presigned Url Report
+      operationId: getPresignedUrlUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: uuid
+          in: query
+          description: uuid
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success. Return a responsePresignedUrlDTO
+          schema:
+            $ref: '#/definitions/AccumulatedDTO'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '403':
+          description: Forbidden. You don't have permission
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/external/backoffice/reports/acquirer:
+    get:
+      tags:
+        - accumulated-external-backoffice-controller
+      summary: Get UUID from acquirers report
+      operationId: getReportAcquirerUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: acquirerCuit
+          in: query
+          description: acquirerCuit
+          required: true
+          type: string
+        - name: date
+          in: query
+          description: date
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success. Return a UuidDTO
+          schema:
+            $ref: '#/definitions/UuidDTO'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '403':
+          description: Forbidden. You don't have permission
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/external/backoffice/reports/issuers:
+    get:
+      tags:
+        - accumulated-external-backoffice-controller
+      summary: Get UUID from issuer report
+      operationId: getReportIssuerUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: date
+          in: query
+          description: date
+          required: true
+          type: string
+        - name: issuerBank
+          in: query
+          description: issuerBank
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success. Return a UuidDTO
+          schema:
+            $ref: '#/definitions/UuidDTO'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+        '403':
+          description: Forbidden. You don't have permission
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/tariffByItem:
+    get:
+      tags:
+        - tariff-by-item-controller
+      summary: findAll
+      operationId: findAllUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TariffByItemDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+    post:
+      tags:
+        - tariff-by-item-controller
+      summary: createTariffByItem
+      operationId: createTariffByItemUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: dto
+          description: dto
+          required: true
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+    put:
+      tags:
+        - tariff-by-item-controller
+      summary: updateTariffByItem
+      operationId: updateTariffByItemUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: dto
+          description: dto
+          required: true
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+  /v1/tariffByItem/{idAcquirer}/{idActivity}:
+    get:
+      tags:
+        - tariff-by-item-controller
+      summary: findById
+      operationId: findByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: idAcquirer
+          in: path
+          description: idAcquirer
+          required: true
+          type: integer
+          format: int64
+        - name: idActivity
+          in: path
+          description: idActivity
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+    delete:
+      tags:
+        - tariff-by-item-controller
+      summary: deleteTariffByItem
+      operationId: deleteTariffByItemUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: idAcquirer
+          in: path
+          description: idAcquirer
+          required: true
+          type: integer
+          format: int64
+        - name: idActivity
+          in: path
+          description: idActivity
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ResponseDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+    patch:
+      tags:
+        - tariff-by-item-controller
+      summary: updateTariffByItemPartially
+      operationId: updateTariffByItemPartiallyUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: dto
+          description: dto
+          required: true
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+        - name: idAcquirer
+          in: path
+          description: idAcquirer
+          required: true
+          type: integer
+          format: int64
+        - name: idActivity
+          in: path
+          description: idActivity
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TariffByItemDTO'
+      security:
+        - JWT:
+            - global
+      deprecated: false
+securityDefinitions:
+  JWT:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  AccumulatedDTO:
+    type: object
+    properties:
+      currency:
+        type: string
+      date:
+        type: string
+      liquidated:
+        type: boolean
+      name:
+        type: string
+      total_accumulated:
+        type: number
+    title: AccumulatedDTO
+  ResponseDTO:
+    type: object
+    required:
+      - code
+      - description
+    properties:
+      code:
+        type: string
+        description: Code of rejection.
+      description:
+        type: string
+        description: Description of the rejection.
+    title: ResponseDTO
+    description: >-
+      Detailed information about the rejection (only if the transaction is
+      REJECTED)
+  S3HistoryDTO:
+    type: object
+    properties:
+      client_id:
+        type: string
+      creation_date:
+        type: string
+        format: date-time
+      expiration_date:
+        type: string
+        format: date-time
+      file_name:
+        type: string
+      presigned_url:
+        type: string
+      uuid:
+        type: string
+        format: uuid
+    title: S3HistoryDTO
+  TariffByItemDTO:
+    type: object
+    properties:
+      from:
+        type: string
+      gross_discount:
+        type: number
+      id_acquirer:
+        type: integer
+        format: int64
+      id_activity:
+        type: integer
+        format: int32
+      user:
+        type: string
+    title: TariffByItemDTO
+  TokenDTO:
+    type: object
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+        format: int32
+      token_type:
+        type: string
+    title: TokenDTO
+  UuidDTO:
+    type: object
+    properties:
+      uuid:
+        type: string
+    title: UuidDTO
