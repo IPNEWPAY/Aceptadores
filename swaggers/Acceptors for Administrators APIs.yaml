@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Acquirer and Administrator APIs - Authenticated events
-  version: 1.0.0
+  title: Acquirer and Administrator APIs
+  version: v27-01-2022
 security:
   - acquirerBearerAuth: []
 servers:
@@ -48,6 +48,7 @@ paths:
                         cuit: 3333333333
                     transaction:
                       authorization_code: '123'
+                      transfer_sequence_number: '014312312312'
                       code: APPROVED
                       description: 'Aprobada'
                       datetime: '2021-04-19T21:28:38.400Z'
@@ -504,6 +505,9 @@ components:
         authorization_code:
           type: string
           description: Authorization code sent to The financials Institutions involved in the transaction.
+        transfer_sequence_number:
+          type: string
+          description: Sequence number utilizado en la transferencia hacia la CBU recaudadora del PSP.
         code:
           $ref: '#/components/schemas/response_status'
         description:
