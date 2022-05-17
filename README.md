@@ -27,3 +27,6 @@ El presente documento tiene como objetivo describir el diseño del reporte que s
 
 ### 5) Archivo: *Documentación APIs Proceso de Liquidación - Aceptador*:
 El presente documento tiene como objetivo describir el set de APIs disponible para los Aceptadores que les permitirá consultar información relativa a la liquidación de tasa de intercambio.
+
+### 6) Archivo: *Tabla de Rubros BCRA*:
+Listado de MCC válidos para determinar el rubro de los comercios.
