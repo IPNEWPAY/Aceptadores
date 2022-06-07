@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Acquirer and Administrator APIs
-  version: v27-01-2022
+  version: v01-06-2022
 security:
   - acquirerBearerAuth: []
 servers:
@@ -72,6 +72,13 @@ paths:
                             total:
                               value: 9.68
                               currency: ARS
+                      withholdings:
+                          total_amount: 1
+                          details:
+                          -
+                              code: 1111
+                              percentage: 0.3
+                              amount: 1
                       net_amount:
                         value: 989.32
                         currency: ARS
@@ -288,6 +295,8 @@ components:
           properties:
             merchant_discounts:
               $ref: '#/components/schemas/merchant_discounts'
+            withholdings:
+              $ref: '#/components/schemas/withholdings'
             gross_amount:
               $ref: '#/components/schemas/amounts'                    
             net_amount:
