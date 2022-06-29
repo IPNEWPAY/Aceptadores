@@ -271,6 +271,8 @@ components:
           $ref: '#/components/schemas/merchants'
         withholdings:
           $ref: '#/components/schemas/withholdings'
+        tax_perceptions:
+          $ref: '#/components/schemas/tax_perceptions'
         transaction_type:
           type: string
           description: Tipo de transaccion CCT, PCT, ECT
@@ -487,6 +489,22 @@ components:
           items:
             $ref: '#/components/schemas/withholding_details'
       description: Retenciones
+    tax_perceptions:
+      required:
+      - total_amount
+      type: object
+      properties:
+        total_amount:
+          type: number
+          description: Monto total a descontar por percepciones
+          format: currency
+        details:
+          minItems: 1
+          type: array
+          description: Lista detallada de percepciones
+          items:
+            $ref: '#/components/schemas/withholding_details'
+      description: Percepciones
     public_payers:
       type: object
       required:
